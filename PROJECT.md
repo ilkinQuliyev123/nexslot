@@ -28,6 +28,10 @@ Primary #2563EB (hover #1D4ED8) · canvas #F8FAFC · surface #FFFFFF · ink #0F1
 ## RBAC
 owner: everything incl. role changes · manager: dashboard, calendar, bookings, services, clients, team (view+hours), no role changes · specialist: own dashboard/calendar/bookings only · client: /account only.
 
+## Gotchas
+- Netlify deploy on Windows: `@netlify/plugin-nextjs` renames `.next` and fails with "Failed publishing static content" when files are locked. Deploy from a clean copy: tar the project without node_modules/.next/.git to a temp dir, `npm ci`, `netlify deploy --prod --build --site <id>`.
+- New Netlify sites are team-protected (HTTP 401 for visitors) until Visitor access is disabled in the Netlify UI (owner action).
+
 ## Progress
 - [x] Scaffold Next 16 + Tailwind 4, deps (drizzle-orm, pg-mem, zod, jose, recharts, lucide-react)
 - [x] `src/lib/slots-engine.ts` pure engine (tz/DST, lunch, buffer, conflicts) + 8 node:test unit tests (`node --test src/lib/slots-engine.test.ts`)
@@ -37,7 +41,8 @@ owner: everything incl. role changes · manager: dashboard, calendar, bookings, 
 - [x] Phase 4: dashboard KPIs + Recharts, calendar (day/week/month), bookings (filters, status workflow, pagination, CSV), services CRUD (dialog), team (roles, hours), clients (notes, CSV), settings, client /account
 - [x] Phase 5: loading skeleton, empty states, zod errors, 404, mobile checks
 - [x] Playwright E2E script (50 checks: pricing, API, booking+conflict+declined card, RBAC, CRUD, CSV, calendar, mobile) all pass; tsc clean
-- [ ] GitHub repo pushed, Netlify deploy `ilkin-nexslot`, portfolio card + screenshot
+- [x] GitHub repo pushed; Netlify site `ilkin-nexslot` deployed (id 2e0e2d80-3c38-4658-990d-13edf8e47b91); portfolio card added
+- [ ] Verify live site with the E2E script once Netlify visitor protection is off (currently 401)
 - Known gaps: hold expiry (5 min) not covered by E2E; Stripe/Resend/Auth.js/WebSockets are simulated (see Deviations); state resets on cold start.
 
 ## Next steps
